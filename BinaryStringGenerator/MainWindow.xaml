@@ -1,0 +1,248 @@
+﻿<Window x:Class="BinaryStringGenerator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BinaryStringGenerator"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        mc:Ignorable="d"
+        Title="Generowanie ciągów binarnych" Height="450" Width="800">
+    <Window.Background>
+        <SolidColorBrush Opacity="0.8" Color="Black"/>
+    </Window.Background>
+    <WindowChrome.WindowChrome >
+        <WindowChrome />
+    </WindowChrome.WindowChrome>
+    <Window.Resources>
+        <!--#region TextBlockBasic-->
+        <Style x:Key="TextBlockBasic" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Consolas" />
+            <Setter Property="Foreground" Value="{StaticResource MatrixBrush}" />
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+        <!--#endregion-->
+        <!--#region BasicFunctionalButtons-->
+        <Style x:Key="BasicFunctionalButtons" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource MatrixBrush}" />
+            <Setter Property="Height" Value="24"/>
+            <Setter Property="Width" Value="24" />
+            <Setter Property="BorderBrush" Value="{StaticResource MatrixBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="ToolTipService.InitialShowDelay" Value="1000"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
+                                                Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0:0:0.3"  Value="{StaticResource MatrixColour}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Content"
+                                                Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0:0:0.3"  Value="White" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <DoubleAnimation Storyboard.TargetName="Border"
+                                                     Storyboard.TargetProperty="Opacity"
+                                                     From="0"
+                                                     To="0.3"
+                                                     Duration="0:0:0.3"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Normal" >
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
+                                               Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)" >
+                                                <EasingColorKeyFrame KeyTime="0:0:0.3"  Value="Transparent" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Content"
+                                               Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)" >
+                                                <EasingColorKeyFrame KeyTime="0:0:0.3"  Value="White" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <DoubleAnimation Storyboard.TargetName="Border"
+                                                     Storyboard.TargetProperty="Opacity"
+                                                     From="0.3"
+                                                     To="0"
+                                                     Duration="0:0:0.3"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border Name="Border"
+                            Width="{TemplateBinding Width}"
+                            Height="{TemplateBinding Height}"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="5"/>
+                            <Label Name="Content" Content="{TemplateBinding Content}" Margin="-2" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--#endregion-->
+    </Window.Resources>
+    <Grid>
+        <!--#region Rows definitions-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!--#endregion-->
+        <!--#region Top bar-->
+        <ContentControl Grid.Row="0" >
+            <Grid Name="TitlePanel"
+                    Width="auto" Height="30"
+                    Background="LightSlateGray">
+                <!--#region ColumnDefinitions-->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <!--#endregion-->
+                <fa:ImageAwesome Icon="Bitcoin" VerticalAlignment="Center" HorizontalAlignment="Center" Width="20" Height="20" Margin="5"/>
+                <TextBlock Text="Generator ciągów binarnych" Grid.Column="1" FontSize="19" />
+                <!--#region Title buttons-->
+                <StackPanel
+                    Name="TitlePanelButtons"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal"
+                    Grid.Column="2">
+                    <Button Name="Minimize" Style="{StaticResource BasicFunctionalButtons}"
+                        Click="Minimize_Click" Height="20" Width="20"
+                        WindowChrome.IsHitTestVisibleInChrome="True">
+                        <fa:ImageAwesome Icon="WindowMinimize" VerticalAlignment="Bottom" HorizontalAlignment="Center" />
+                    </Button>
+                    <Button Name="Maximize" Style="{StaticResource BasicFunctionalButtons}"
+                        Click="Maximize_Click"
+                        WindowChrome.IsHitTestVisibleInChrome="True" Height="20" Width="20">
+                        <fa:ImageAwesome Icon="WindowMaximize" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Button>
+                    <Button Name="Exit" Style="{StaticResource BasicFunctionalButtons}"
+                        Click="Exit_Click" Height="20" Width="20"
+                        WindowChrome.IsHitTestVisibleInChrome="True">
+                        <fa:ImageAwesome Icon="WindowClose" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Button>
+                </StackPanel>
+                <!--#endregion-->
+            </Grid>
+        </ContentControl>
+        <!--#endregion-->
+        <StackPanel Grid.Row="1">
+            <TextBlock Text="BINARY STRING GENERATOR" FontWeight="Bold"
+                       FontSize="35"  Foreground="{StaticResource MatrixBrush}"
+                       HorizontalAlignment="Center" Margin="20"
+                       FontFamily="{StaticResource Matrix}" />
+            <Grid>
+                <!--#region Rows definitions-->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <!--#endregion-->
+                <TextBlock Text="Podaj maksymalną liczbę bajtów z jakich mają składać się ciągi (od 1 do 32): " Style="{StaticResource TextBlockBasic}" />
+                <TextBox Name="UserNumber" HorizontalAlignment="Stretch" Grid.Column="1" Foreground="{StaticResource MatrixBrush}" Background="{StaticResource DarkMatrixBrush}" />
+            </Grid>
+        </StackPanel>
+        <Grid Grid.Row="2">
+            <!--#region Column definitions-->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="47*"/>
+                <ColumnDefinition Width="353*"/>
+            </Grid.ColumnDefinitions>
+            <!--#endregion-->
+            <!--#region Rows definitions-->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <!--#endregion-->
+            <Grid Grid.Row="0" Grid.ColumnSpan="2" >
+                <!--#region Columns fefitnitions-->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <!--#endregion-->
+                <Button Click="GenerateButton_Click" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button.Content>
+                        <Border Padding="10" >
+                            <Border.Background>
+                                <SolidColorBrush Color="{StaticResource DarkMatrixColour}"/>
+                            </Border.Background>
+                            <TextBlock  Text="Generuj" 
+                                        FontSize="15"
+                                        Foreground="{StaticResource MatrixBrush}"
+                                        FontFamily="Consolas"/>
+                        </Border>
+                    </Button.Content>
+                </Button>
+                <TextBlock Text="Czas generowania ciągów:"  Grid.Column="1" Style="{StaticResource TextBlockBasic}" ToolTip="Czas generowania ciągów i czas renderowania wyników mogą się różnić."/>
+                <TextBlock Name="TotalTime" Text="{Binding totalTime}"  Grid.Column="2"  Style="{StaticResource TextBlockBasic}" ToolTip="Czas generowania ciągów i czas renderowania wyników mogą się różnić."/>
+                <TextBlock Text="Ilość wygenerowanych ciągów" Grid.Column="3"   Style="{StaticResource TextBlockBasic}"/>
+                <TextBlock Name="NumberOfElements" Grid.Column="4"  Style="{StaticResource TextBlockBasic}"/>
+                <StackPanel Grid.Column="5">
+                    <RadioButton Name="ShowResults" 
+                                 FontFamily="Consolas"
+                                 Foreground="{StaticResource MatrixBrush}"
+                                 Content="Wyświetl wyniki" 
+                                 Margin="3 3 3 0" GroupName="Results" IsChecked="True"
+                                 ToolTip="Renderowanie dużej ilości ciągów może znacząco spowolnić pracę komputera."/>
+                    
+                    <RadioButton Name="SaveToFile"  
+                                 FontFamily="Consolas"
+                                 Foreground="{StaticResource MatrixBrush}"
+                                 Content="Zapisz wyniki do pliku" 
+                                 Margin="3 0 3 0" GroupName="Results" 
+                                 ToolTip="Plik zostanie zapisany w miejscu z którego została uruchomiona apliakcja." />
+                </StackPanel>
+            </Grid>
+            <TextBlock Name="InformationAboutResult" Grid.Row="1" 
+                       HorizontalAlignment="Center" VerticalAlignment="Center" 
+                       FontSize="15" Panel.ZIndex="1" 
+                       TextWrapping="Wrap" Grid.Column="1" />
+
+            <ScrollViewer Grid.Row="1" 
+                          HorizontalScrollBarVisibility="Auto"
+                          VerticalScrollBarVisibility="Visible" Grid.ColumnSpan="2" >
+                <ItemsControl Name="GeneratedNumbersList"
+                              DataContext="{x:Static local:GeneratedListViewModel.Instance}"
+                              ItemsSource="{Binding GeneratedNumbers}"
+                              VirtualizingStackPanel.IsVirtualizing="True" 
+                              VirtualizingStackPanel.VirtualizationMode="Recycling">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Background="Transparent" Margin="1">
+                                <TextBlock   Text="{Binding}" 
+                                             FontFamily="Consolas"
+                                             Foreground="{StaticResource MatrixBrush}"
+                                             HorizontalAlignment="Center" 
+                                             VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            <TextBox Grid.Row="2" Name="InforamtionForUser" Background="Transparent" Grid.ColumnSpan="2"/>
+        </Grid>
+    </Grid>
+</Window>

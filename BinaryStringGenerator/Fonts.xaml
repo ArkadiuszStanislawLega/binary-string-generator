@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:BinaryStringGenerator">
+    <FontFamily x:Key="Matrix">pack://appliction;,,,/Fonts/#Matrix</FontFamily>
+
+    <Color x:Key="MatrixColour">#44b22b</Color>
+    <SolidColorBrush x:Key="MatrixBrush" Color="{StaticResource MatrixColour}" />
+
+    <Color x:Key="DarkMatrixColour">#02703f</Color>
+    <SolidColorBrush x:Key="DarkMatrixBrush" Color="{StaticResource DarkMatrixColour}" />
+</ResourceDictionary>
